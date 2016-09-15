@@ -11,8 +11,7 @@ LookupMethod::LookupMethod(const GyroSensor* gyroSensor, Motor* leftMotor,
   mClock = clock;
   mSonarAlert = sonarAlert;
   mBalancingWalker = balancingWalker;
-  lookupFlag = 2;
-  sonarFlag = false;
+  lookupFlag = 1;
 }
 
 /**
@@ -38,10 +37,10 @@ LookupMethod::LookupMethod(const GyroSensor* gyroSensor, Motor* leftMotor,
 
       case 2:
 
-      mTailControl->tail_control(85, 50, false);
+      mTailControl->tail_control(85, 50, true);
 
 
-      mLeftMotor->setPWM(7);
+      mLeftMotor->setPWM(9);
       mRightMotor->setPWM(7);
 
       mClock->wait(1000);
@@ -58,22 +57,22 @@ LookupMethod::LookupMethod(const GyroSensor* gyroSensor, Motor* leftMotor,
 
       case 3:
 
-      mTailControl->tail_control(80, 30, false);
+      mTailControl->tail_control(80, 30, true);
       mClock->wait(1000);
 
-      mTailControl->tail_control(75, 30, false);
+      mTailControl->tail_control(75, 30, true);
       mClock->wait(1000);
 
-      mTailControl->tail_control(70, 30, false);
+      mTailControl->tail_control(70, 30, true);
       mClock->wait(1000);
 
-      mTailControl->tail_control(67, 30, false);
+      mTailControl->tail_control(67, 30, true);
       mClock->wait(1000);
 
-      mTailControl->tail_control(65, 30, false);
+      mTailControl->tail_control(65, 30, true);
       mClock->wait(1000);
 
-      mTailControl->tail_control(62, 30, false);
+      mTailControl->tail_control(62, 30, true);
       mClock->wait(1000);
 
       mTailControl->tail_control(60, 30, true);
@@ -82,10 +81,11 @@ LookupMethod::LookupMethod(const GyroSensor* gyroSensor, Motor* leftMotor,
       lookupFlag = 4;
 
       case 4:
-          mLeftMotor->setPWM(10);
+
+      mLeftMotor->setPWM(10);
       mRightMotor->setPWM(10);
 
-      mClock->wait(3000);
+      mClock->wait(3500);
 
       mLeftMotor->setPWM(0);
       mRightMotor->setPWM(0);
@@ -95,7 +95,7 @@ LookupMethod::LookupMethod(const GyroSensor* gyroSensor, Motor* leftMotor,
       mLeftMotor->setPWM(-10);
       mRightMotor->setPWM(-10);
 
-      mClock->wait(3000);
+      mClock->wait(3500);
 
 
       mLeftMotor->setPWM(0);
@@ -104,21 +104,21 @@ LookupMethod::LookupMethod(const GyroSensor* gyroSensor, Motor* leftMotor,
       mClock->wait(500);
 
 
-      mLeftMotor->setPWM(10); 
-      mRightMotor->setPWM(10);
+      mLeftMotor->setPWM(20); 
+      mRightMotor->setPWM(20);
 
-      mClock->wait(3000);
+      mClock->wait(2000);
 
       mLeftMotor->setPWM(0);
       mRightMotor->setPWM(0);
 
-lookupFlag = 6;
+      lookupFlag = 5;
 
       break;
 
-      case 6:
+      case 5:
 
-      mTailControl->tail_control(65, 100, true);
+      mTailControl->tail_control(65, 50, true);
       mClock->wait(1000);
 
       mTailControl->tail_control(70, 50, true);
@@ -155,7 +155,7 @@ lookupFlag = 6;
       mTailControl->tail_control(90, 20, true);
       mClock->wait(1000);
 
-        mTailControl->tail_control(91, 20, true);
+      mTailControl->tail_control(91, 20, true);
       mClock->wait(1000);
 
       mTailControl->tail_control(92, 20, true);
@@ -165,19 +165,19 @@ lookupFlag = 6;
       mClock->wait(1000);
 
 
-      lookupFlag = 7;
+      lookupFlag = 6;
 
+      break;
+
+
+      case 6:
+      ev3_speaker_play_tone (880,100);
+
+      lookupFlag = 7;
       break;
 
 
       case 7:
-      ev3_speaker_play_tone (880,100);
-
-      lookupFlag = 8;
-      break;
-
-
-      case 8:
 
       lookupFlag = 0;
 

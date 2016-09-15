@@ -22,7 +22,6 @@ private:
 BalancingWalker* mBalancingWalker;
 
 int lookupFlag;
-bool sonarFlag;
 
 public:
   LookupMethod(const GyroSensor* gyroSensor, Motor* leftMotor,
