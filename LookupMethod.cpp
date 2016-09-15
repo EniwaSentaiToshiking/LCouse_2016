@@ -41,10 +41,10 @@ void LookupMethod::run(){
                 mTailControl->tail_control(85, 50, false);
                 
                 
-                mLeftMotor->setPWM(10);
-                mRightMotor->setPWM(10);
+                mLeftMotor->setPWM(30);
+                mRightMotor->setPWM(30);
                 
-                mClock->wait(700);
+                mClock->wait(300);
                 
                 mLeftMotor->setPWM(0);
                 mRightMotor->setPWM(0);
@@ -58,7 +58,7 @@ void LookupMethod::run(){
                 
             case 3:
                 
-                for(int i = 84; i >= 60; i--){
+                for(int i = 84; i >= 64; i--){
                     mTailControl->tail_control(i,10,true);
                     
                     mClock->sleep(300);
@@ -71,17 +71,17 @@ void LookupMethod::run(){
                 mLeftMotor->setPWM(10);
                 mRightMotor->setPWM(10);
                 
-                mClock->wait(3500);
+                mClock->wait(2700);
                 
                 mLeftMotor->setPWM(0);
                 mRightMotor->setPWM(0);
                 
                 mClock->wait(1000);
                 
-                mLeftMotor->setPWM(-10);
+                mLeftMotor->setPWM(10);
                 mRightMotor->setPWM(-10);
                 
-                mClock->wait(3500);
+                mClock->wait(3200);
                 
                 
                 mLeftMotor->setPWM(0);
@@ -93,10 +93,35 @@ void LookupMethod::run(){
                 mLeftMotor->setPWM(10);
                 mRightMotor->setPWM(10);
                 
-                mClock->wait(3500);
+                mClock->wait(3600);
                 
                 mLeftMotor->setPWM(0);
                 mRightMotor->setPWM(0);
+
+                 mLeftMotor->setPWM(0);
+                mRightMotor->setPWM(0);
+                
+                mClock->wait(500);
+
+                mLeftMotor->setPWM(10);
+                mRightMotor->setPWM(-10);
+                
+                mClock->wait(3200);
+
+                  mLeftMotor->setPWM(0);
+                mRightMotor->setPWM(0);
+                
+                mClock->wait(500);
+
+                mLeftMotor->setPWM(10);
+                mRightMotor->setPWM(10);
+                
+                mClock->wait(3400);
+
+                 mLeftMotor->setPWM(0);
+                mRightMotor->setPWM(0);
+                
+                mClock->wait(500);
                 
                 lookupFlag = 6;
                 
