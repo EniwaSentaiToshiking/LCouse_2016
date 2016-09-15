@@ -2,7 +2,7 @@
 
 SonarAlert::SonarAlert(SonarSensor* sonarSensor){
   mSonarSensor = sonarSensor;
-  distance = 20;
+  distance = 35;
 }
 
 SonarAlert::~SonarAlert() {

@@ -132,9 +132,9 @@ mClock->sleep(10);
           break;
 
       case 6: // ここからゴール後
-     //mTailControl->tail_control(tail,20,false);
+     mTailControl->tail_control(tail,20,false);
 
-    mLineTraceMethod->run(0.39, 0.0, 0.04,30,-30,30,-1);
+    mLineTraceMethod->run(0.39, 0.0, 0.04,20,-20,20,-1);
 
     if(mSonarAlert->alert()){
       mState = SCENARIO_TRACE;
@@ -163,8 +163,8 @@ break;
   switch(SCENARIO_flag){
     case 1:
 
-    if(mClock->now() <= 3500){
-        mLineTraceMethod->run(0.39, 0.0, 0.04,5,-5,5,0);
+    if(mClock->now() <= 1000){
+      mLineTraceMethod->run(0.39, 0.0, 0.04,20,-20,20,-1);
         mTailControl->tail_control(85, 50, false);
     }else{
         mLookupMethod->run();
