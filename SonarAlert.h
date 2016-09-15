@@ -3,7 +3,7 @@
 
 #include "SonarSensor.h"
 
-#define SONAR_ALERT_DISTANCE 30  /* 超音波センサによる障害物検知距離[cm] */
+#define SONAR_ALERT_DISTANCE 15  /* 超音波センサによる障害物検知距離[cm] */
 
 using namespace ev3api;
 

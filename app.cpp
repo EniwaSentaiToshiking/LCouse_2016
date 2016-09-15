@@ -51,6 +51,8 @@ static Garage *gar;//ガレージ系
 static Measure *mea;//距離
 static gray_check *g_check;//灰色
 
+static FILE *clockfile;
+
 static void system_create(){
 
   /*Sensor Class(Port)*/
@@ -87,6 +89,9 @@ ev3_led_set_color(LED_ORANGE); /*初期化完了通知*/
 
 
 
+clockfile = fopen("clock.txt","w");
+
+
    /*tailmotor*/
 tailMotor->reset();
 }
@@ -112,6 +117,7 @@ static void system_destroy() {
   delete g_check;
   delete mea;
   delete gar;
+  fclose(clockfile);
 }
 
 /**
@@ -129,18 +135,19 @@ void main_task(intptr_t unused)
 
   while(1){
 
+  if(ev3_button_is_pressed(BACK_BUTTON)) break;
+
+  if(gyroSensor->getAnglerVelocity() <= -350 || gyroSensor->getAnglerVelocity() >= 350){
+  break;
+  }
+
  /*距離測る*/
     mea->measure();
     
  gRunMethod->run();  // 倒立走行
- gGetLogData->create_logFile(gyroSensor->getAnglerVelocity(),colorSensor->getBrightness(),mea);//ログデータ
- if(gyroSensor->getAnglerVelocity() <= -350 || gyroSensor->getAnglerVelocity() >= 350){
-  break;
-}
-if(ev3_button_is_pressed(BACK_BUTTON)){
-  break;
-}
-clock->sleep(4);
+ gGetLogData->create_logFile(ev3_gyro_sensor_get_rate(EV3_PORT_4),colorSensor->getBrightness(),mea);//ログデータ
+
+tslp_tsk(4);
 }
 
 ter_tsk(TRACER_TASK);

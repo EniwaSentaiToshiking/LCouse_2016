@@ -8,7 +8,7 @@ class gray_check {
   private:
   int color;//取得した輝度値
   float average=0.0;//輝度値の平均
-  float limit=5.3;//閾値
+  float limit=4.3;//閾値
   int data[150]={};//保存データ
   int data_no=0;//データ番号
   int data_max=149;//データの最後の番号

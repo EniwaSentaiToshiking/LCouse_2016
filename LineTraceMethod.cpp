@@ -29,16 +29,6 @@ int turn = mPID->calcPID(p, i, d, mColorSensor->getBrightness(), mCalibration->c
 
 //gGetLogData->create_logFile(gyro,color);
 mBalancingWalker->setCommand(forward, turn,offset);
-//mBalancingWalker->setCommand(20, turn, 0);
-
-
-
-//距離センサ
-// if ( mSonarAlert->alert() )
-//   sonarFlag = true;
-//   mBalancingWalker->setCommand(0, 0, 0);
-
-//}
 
 // 倒立走行を行う
 mBalancingWalker->run();
@@ -47,12 +37,9 @@ mBalancingWalker->run();
 
 void LineTraceMethod::SCENARIO_run(){
 
-if(mColorSensor->getBrightness() >= mCalibration->calc_avarage_color()){
+if(mColorSensor->getBrightness() >= 14){
   mBalancingWalker->SCENARIO_run(true);
 }else{
   mBalancingWalker->SCENARIO_run(false);
 }
-
-
-
 }

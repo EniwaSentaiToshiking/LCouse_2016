@@ -7,7 +7,7 @@ Garage::Garage(Motor* r, Motor* l, TailControl* tc, BalancingWalker* b, Clock* c
     bw = b;
     c = clock;
     gyro = g;
-    GARAGE_flag = 0;
+    GARAGE_flag = 1;
 }
 
 Garage::~Garage(){
@@ -35,9 +35,13 @@ void Garage::slowrun_stop(){
 			case 1: //尻尾を出しながら少し傾く
 			// bw->setCommand(0,0,-15);
 			// bw->run();
+
+			  rMotor->setPWM(10);
+			  lMotor->setPWM(10);
+
 			mTailControl->tail_control(85, 50, false);
 
-			c->wait(4);
+			c->wait(400);
 
   			GARAGE_flag=2;
 
@@ -45,16 +49,12 @@ void Garage::slowrun_stop(){
 
 			case 2:
 
-			rMotor->setPWM(10);
-			lMotor->setPWM(10);
-
-			if(c->now() >= 3200){
 				rMotor->setBrake(true);
 				lMotor->setBrake(true);
 
  				rMotor->setPWM(0);
 				lMotor->setPWM(0);
-			}
+			
 	}
 }
 

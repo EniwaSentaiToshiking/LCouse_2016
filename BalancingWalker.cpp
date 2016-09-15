@@ -36,7 +36,7 @@ const int BalancingWalker::HIGH   = 120;    // 高速
  * バランス走行する
  */
  void BalancingWalker::run() {
-    int16_t angle = ev3_gyro_sensor_get_rate(EV3_PORT_4);  // ジャイロセンサ値
+    int16_t angle = mGyroSensor->getAnglerVelocity();  // ジャイロセンサ値
     int rightMotorEnc = mRightMotor->getCount();       // 右モータ回転角度
     int leftMotorEnc  = mLeftMotor->getCount();        // 左モータ回転角度
 
@@ -66,7 +66,8 @@ void BalancingWalker::SCENARIO_run(bool flag){
  * バランス走行に必要なものをリセットする
  */
  void BalancingWalker::init() {
-  int offset = ev3_gyro_sensor_get_rate(EV3_PORT_4);
+  int offset = -1;
+
     //スピード70の時オフセット12
     //  // ジャイロセンサ値
 
