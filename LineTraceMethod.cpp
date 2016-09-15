@@ -37,7 +37,7 @@ mBalancingWalker->run();
 
 void LineTraceMethod::SCENARIO_run(){
 
-if(mColorSensor->getBrightness() >= mCalibration->calc_avarage_color() -3){
+if(mColorSensor->getBrightness() >= 15){
   mBalancingWalker->SCENARIO_run(true);
 }else{
   mBalancingWalker->SCENARIO_run(false);
