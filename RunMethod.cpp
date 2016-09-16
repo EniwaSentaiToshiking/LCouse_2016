@@ -91,7 +91,7 @@ void RunMethod::execLineTracing(){
     switch(Line_Trace_flag){
         case 0: //ここから走行スタート
             mTailControl->tail_control(tail,20,false);
-            mLineTraceMethod->run(0.34, 0.01, 0.02,120,-120,120,0);
+            mLineTraceMethod->run(0.37, 0.005, 0.02,120,-120,120,0);
             
             if(mea1->point_x>=215){
                 Line_Trace_flag = 1;
@@ -100,7 +100,7 @@ void RunMethod::execLineTracing(){
             break;
         case 1:
             //mLineTraceMethod->run(0.86, 0.008, 0.032,70,-100,100,0);
-            mLineTraceMethod->run(1.5, 0.01, 0.04,100,-100,100,0);
+            mLineTraceMethod->run(1.5, 0.005, 0.04,100,-100,100,0);
             if(mea1->point_x<235&&mea1->point_y<-20){
                 Line_Trace_flag = 2;
                 ev3_speaker_play_tone (480,100);
@@ -128,7 +128,7 @@ void RunMethod::execLineTracing(){
             }
             break;
         case 5:
-            mLineTraceMethod->run(0.86, 0.01, 0.04,100,-100,100,0);
+            mLineTraceMethod->run(0.86, 0.05, 0.03,100,-100,100,0);
             if(mea1->point_y>-185&&mea1->point_x<10){
                 Line_Trace_flag = 6;
                 ev3_speaker_play_tone (480,100);

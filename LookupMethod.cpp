@@ -41,8 +41,8 @@ void LookupMethod::run(){
                 mTailControl->tail_control(85, 50, false);
                 
                 
-                mLeftMotor->setPWM(30);
-                mRightMotor->setPWM(30);
+                mLeftMotor->setPWM(15);
+                mRightMotor->setPWM(15);
                 
                 mClock->wait(300);
                 
@@ -58,7 +58,7 @@ void LookupMethod::run(){
                 
             case 3:
                 
-                for(int i = 84; i >= 64; i--){
+                for(int i = 84; i >= 62; i--){
                     mTailControl->tail_control(i,10,true);
                     
                     mClock->sleep(300);
@@ -81,7 +81,7 @@ void LookupMethod::run(){
                 mLeftMotor->setPWM(10);
                 mRightMotor->setPWM(-10);
                 
-                mClock->wait(3150);
+                mClock->wait(3175);
                 
                 
                 mLeftMotor->setPWM(0);
@@ -106,7 +106,7 @@ void LookupMethod::run(){
                 mLeftMotor->setPWM(10);
                 mRightMotor->setPWM(-10);
                 
-                mClock->wait(3150);
+                mClock->wait(3175);
 
                   mLeftMotor->setPWM(0);
                 mRightMotor->setPWM(0);
