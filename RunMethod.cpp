@@ -22,13 +22,10 @@ RunMethod::RunMethod(GyroSensor* gyroSensor,LineTraceMethod* lineTraceMethod,
     
     tail = 95;
     tail_flag = false;
-    
-    timefile = fopen("clock.txt","w");
 }
 
 RunMethod::~RunMethod(){
     
-    fclose(timefile);
     tail = 95;
     tail_flag = false;
     
@@ -91,8 +88,8 @@ void RunMethod::execLineTracing(){
     switch(Line_Trace_flag){
         case 0: //ここから走行スタート
             mTailControl->tail_control(tail,20,false);
-            mLineTraceMethod->run(0.37, 0.005, 0.02,120,-120,120,0);
-            
+            //mLineTraceMethod->run(0.37, 0.005, 0.02,120,-120,120,0);
+            mLineTraceMethod->run(0.4, 0.0, 0.03,120,-120,120,0);
             if(mea1->point_x>=215){
                 Line_Trace_flag = 1;
                 ev3_speaker_play_tone (480,100);
@@ -107,7 +104,8 @@ void RunMethod::execLineTracing(){
             }
             break;
         case 2:
-            mLineTraceMethod->run(0.34, 0.01, 0.02,120,-120,120,0);
+            //mLineTraceMethod->run(0.34, 0.01, 0.02,120,-120,120,0);
+            mLineTraceMethod->run(0.4, 0.0, 0.03,120,-120,120,0);
             if(mea1->point_x<155){
                 Line_Trace_flag = 3;
                 ev3_speaker_play_tone (480,100);
@@ -121,7 +119,8 @@ void RunMethod::execLineTracing(){
             }
             break;
         case 4:
-            mLineTraceMethod->run(0.37, 0.0, 0.01,120,-120,120,0);
+            //mLineTraceMethod->run(0.37, 0.0, 0.01,120,-120,120,0);
+            mLineTraceMethod->run(0.4, 0.0, 0.03,120,-120,120,0);
             if(mea1->point_y<-150){
                 Line_Trace_flag = 5;
                 ev3_speaker_play_tone (480,100);
@@ -129,7 +128,7 @@ void RunMethod::execLineTracing(){
             break;
         case 5:
             mLineTraceMethod->run(0.86, 0.05, 0.03,100,-100,100,0);
-            if(mea1->point_y>-185&&mea1->point_x<10){
+            if(mea1->point_y>-175&&mea1->point_x<10){
                 Line_Trace_flag = 6;
                 ev3_speaker_play_tone (480,100);
             }
@@ -138,7 +137,8 @@ void RunMethod::execLineTracing(){
         case 6: // ここからゴール後
             mTailControl->tail_control(tail,20,false);
             
-            mLineTraceMethod->run(0.39, 0.0, 0.04,20,-20,20,-1);
+            //mLineTraceMethod->run(0.39, 0.0, 0.04,20,-20,20,-1);
+            mLineTraceMethod->run(0.4, 0.0, 0.03,20,-20,20,-1);
             
             if(mSonarAlert->alert()){
                 mState = SCENARIO_TRACE;
@@ -169,8 +169,6 @@ break;
             break;
     }
 
-        fprintf(timefile,"%lu\n",mClock->now());
-    mClock->reset();
 }
 
 /**
