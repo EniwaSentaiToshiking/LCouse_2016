@@ -27,7 +27,6 @@ void LineTraceMethod::run(float p, float i, float d,int forward,int min, int max
 int turn = mPID->calcPID(p, i, d, mColorSensor->getBrightness(), mCalibration->calc_avarage_color(),min,max) * -1; //操作量
     /*スピード70のときp=0.84,i=0.005,d=0.022*/
 
-//gGetLogData->create_logFile(gyro,color);
 mBalancingWalker->setCommand(forward, turn,offset);
 
 // 倒立走行を行う

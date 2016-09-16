@@ -88,10 +88,6 @@ gRunMethod = new RunMethod(gyroSensor,gLineTraceMethod,gRemoteStart,gCalibration
 ev3_led_set_color(LED_ORANGE); /*初期化完了通知*/
 
 
-
-clockfile = fopen("clock.txt","w");
-
-
    /*tailmotor*/
 tailMotor->reset();
 }
@@ -137,7 +133,7 @@ void main_task(intptr_t unused)
 
   if(ev3_button_is_pressed(BACK_BUTTON)) break;
 
-  if(gyroSensor->getAnglerVelocity() <= -350 || gyroSensor->getAnglerVelocity() >= 350){
+ if(gyroSensor->getAnglerVelocity() <= -350 || gyroSensor->getAnglerVelocity() >= 350){
   break;
   }
 
@@ -145,10 +141,11 @@ void main_task(intptr_t unused)
     mea->measure();
     
  gRunMethod->run();  // 倒立走行
- gGetLogData->create_logFile(ev3_gyro_sensor_get_rate(EV3_PORT_4),colorSensor->getBrightness(),mea);//ログデータ
 
 tslp_tsk(4);
 }
+
+
 
 ter_tsk(TRACER_TASK);
 system_destroy();

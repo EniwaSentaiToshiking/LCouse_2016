@@ -2,13 +2,13 @@
 
 gray_check::gray_check(ColorSensor* g_ColorSensor) {
     m_ColorSensor = g_ColorSensor;
-    get_colorfile = fopen("get_colorfile.txt","w");
-    averagefile = fopen("averagefile.txt","w");
+ //   get_colorfile = fopen("get_colorfile.txt","w");
+ //   averagefile = fopen("averagefile.txt","w");
 }
 
 gray_check::~gray_check() {
-    fclose(get_colorfile); 
-    fclose(averagefile); 
+  //  fclose(get_colorfile); 
+  //  fclose(averagefile); 
 }
 
 int  gray_check::gray_checker(uint8_t black, uint8_t white){
