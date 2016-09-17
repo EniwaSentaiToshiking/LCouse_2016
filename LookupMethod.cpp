@@ -77,41 +77,19 @@ void LookupMethod::run(){
                 mRightMotor->setPWM(0);
                 
                 mClock->wait(1000);
+        
                 
-                mLeftMotor->setPWM(10);
+                
+                mLeftMotor->setPWM(-10);
                 mRightMotor->setPWM(-10);
-                
-                mClock->wait(3175);
-                
-                
-                mLeftMotor->setPWM(0);
-                mRightMotor->setPWM(0);
-                
-                mClock->wait(500);
-                
-                
-                mLeftMotor->setPWM(10);
-                mRightMotor->setPWM(10);
                 
                 mClock->wait(3600);
                 
-                mLeftMotor->setPWM(0);
-                mRightMotor->setPWM(0);
-
-                 mLeftMotor->setPWM(0);
-                mRightMotor->setPWM(0);
-                
-                mClock->wait(500);
-
-                mLeftMotor->setPWM(10);
-                mRightMotor->setPWM(-10);
-                
-                mClock->wait(3175);
 
                   mLeftMotor->setPWM(0);
                 mRightMotor->setPWM(0);
                 
-                mClock->wait(500);
+                mClock->wait(1000);
 
                 mLeftMotor->setPWM(10);
                 mRightMotor->setPWM(10);
