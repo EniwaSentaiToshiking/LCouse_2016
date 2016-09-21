@@ -1,0 +1,251 @@
+#include "RunMethod.h"
+
+RunMethod::RunMethod(LineTraceMethod* lineTraceMethod,
+  RemoteStart* remoteStart,Calibration* calibration,
+  TailControl* tailControl,Clock* clock,TouchSensor* touchSensor,
+  LookupMethod* lookupMethod,Garage* g,SonarAlert* sonarAlert,gray_check* g_check2, Measure* mea2){
+
+  mLineTraceMethod = lineTraceMethod;
+  mRemoteStart = remoteStart;
+  mCalibration = calibration;
+  mTailControl = tailControl;
+  mClock = clock;
+  mState = UNDEFINED;
+  mTouchSensor = touchSensor;
+  mLookupMethod = lookupMethod;
+  mSonarAlert = sonarAlert;
+  gar = g;
+  g_check1 = g_check2;
+  mea1 = mea2;
+
+  tail = 93;
+  tail_flag = false;
+}
+
+RunMethod::~RunMethod(){
+
+  tail = 93;
+  tail_flag = false;
+
+}
+
+void RunMethod::run(){
+  switch(mState){
+    case UNDEFINED: //キャリブレーション
+    execUndefined();
+    break;
+    case WAITING_FOR_START: //スタート待ち
+    execWaitingForStart();
+    break;
+    case LINE_TRACE: //ただのコース走行
+    execLineTracing();
+    break;
+    case SCENARIO_TRACE: //難所走行
+    execScenarioTracing();
+    break;
+    default:
+    break;
+  }
+}
+
+/**
+ * 未定義状態の処理
+**/
+ void RunMethod::execUndefined() {
+  mCalibration->initCali();
+  mTailControl->tail_control(tail,80,true);
+
+  if(mCalibration->touch_counter == 4){
+    mState = WAITING_FOR_START;
+    //ext_tsk();
+   }
+
+  mClock->sleep(10);
+}
+
+/**
+ * 開始待ち状態の処理
+**/
+ void RunMethod::execWaitingForStart() {
+
+  mTailControl->tail_control(tail,20,true);
+
+  if (mRemoteStart->remote_start() || mTouchSensor->isPressed()) {
+    mState = LINE_TRACE;
+    Line_Trace_flag = 0;
+    mClock->reset();
+    tail = 0;
+    //ext_tsk();
+  }
+  mClock->sleep(10);
+}
+
+/**
+ * ライントレース状態の処理
+**/
+ void RunMethod::execLineTracing(){
+  switch(Line_Trace_flag){
+    case 0: // はじめの直線
+      mTailControl->tail_control(tail,20,false);
+
+      mLineTraceMethod->run(0.4, 0.002, 0.04,120,-30,30,0);
+
+      if(mea1->point_x>390){// 第1カーブ進入前
+        Line_Trace_flag = 1;
+        ev3_speaker_play_tone (480,100);
+      }
+    break;
+
+    case 1: 
+      mLineTraceMethod->run(0.86, 0.008, 0.036,70,-100,100,0);//p,i,d,forward,pidの最小値,pidの最大値/0.022
+
+      if(mea1->point_y>38){// 第1カーブ後
+        ev3_speaker_play_tone (480,100);
+        Line_Trace_flag = 2;
+      }//コースR
+    break;
+
+    case 2: 
+      mLineTraceMethod->run(0.4, 0.002, 0.04,120,-30,30,0);//p,i,d,forward,pidの最小値,pidの最大値/0.022
+
+      if(mea1->point_x>340){// 第2カーブ進入前
+        ev3_speaker_play_tone (480,100);
+        Line_Trace_flag = 3;
+      }//コースR
+    break;
+
+    case 3: 
+      mLineTraceMethod->run(0.86, 0.002,0.04,70,-100,100,0);//p,i,d,forward,pidの最小値,pidの最大値/0.022
+
+      if(mea1->point_x<260){// 第2カーブ後
+        ev3_speaker_play_tone (480,100);
+        Line_Trace_flag = 4;
+      }//コースR
+    break;
+
+    case 4: 
+      mLineTraceMethod->run(0.4, 0.002, 0.04,120,-30,30,0);//p,i,d,forward,pidの最小値,pidの最大値/0.022
+
+      if(mea1->point_y>30&&mea1->point_y<70&&mea1->point_x>90&&mea1->point_x<120){// ゴール後
+        ev3_speaker_play_tone (480,100);
+        Line_Trace_flag = 5;
+      }//コースR
+    break;
+
+    case 5: 
+      mLineTraceMethod->run(0.39, 0.0, 0.04,30,-30,30,-8);
+      
+      if ( mSonarAlert->alert() ){
+	SCENARIO_flag = 1;
+	mState = SCENARIO_TRACE;
+      }
+
+      if(g_check1->gray_checker(mCalibration->LIGHT_BLACK,mCalibration->LIGHT_WHITE)==0&&mea1->point_y>220){
+        ev3_speaker_play_tone(880,100);
+        SCENARIO_flag = 2;
+        mLineTraceMethod->run(0.3, 0.005, 0.03,20,-30,30,0);
+        mState = SCENARIO_TRACE;
+      }
+    break;
+
+    default:
+    break;
+  }
+}
+// void RunMethod::execLineTracing() {
+
+//   mTailControl->tail_control(tail,20,false);
+
+//   mLineTraceMethod->run(0.32, 0.0, 0.01,0,0,0,0);
+
+//   if(mea1->point_x>390){
+//     mState = LINE_TRACE2;
+//     //ev3_speaker_play_tone (480,100);
+//   }
+
+// }
+
+// void RunMethod::execLineTracing2() {
+//   mLineTraceMethod->run(0.86, 0.008, 0.032,70,-100,100,0);//p,i,d,forward,pidの最小値,pidの最大値/0.022
+
+//  if(mea1->point_y>37){
+//     ev3_speaker_play_tone (480,100);
+//     mState = LINE_TRACE3;
+//   }//コースR
+
+// }
+
+// void RunMethod::execLineTracing3() {
+//   mLineTraceMethod->run(0.32, 0.0, 0.01,120,-30,30,0);//p,i,d,forward,pidの最小値,pidの最大値/0.022
+
+//  if(mea1->point_y>100){
+//     ev3_speaker_play_tone (480,100);
+//     mState = LINE_TRACE4;
+//   }//コースR
+
+// }
+
+// void RunMethod::execLineTracing4() {
+//   mLineTraceMethod->run(0.86, 0.008, 0.034,70,-100,100,0);//p,i,d,forward,pidの最小値,pidの最大値/0.022
+
+//  if(mea1->point_x<260){
+//     ev3_speaker_play_tone (480,100);
+//     mState = LINE_TRACE5;
+//   }//コースR
+
+// }
+
+// void RunMethod::execLineTracing5() {
+//   mLineTraceMethod->run(0.32, 0.0, 0.01,120,-30,30,0);//p,i,d,forward,pidの最小値,pidの最大値/0.022
+
+//  if(mea1->point_y>30&&mea1->point_y<70&&mea1->point_x>90&&mea1->point_x<120){
+//     ev3_speaker_play_tone (480,100);
+//     mState = LINE_TRACE6;
+//   }//コースR
+
+// }
+
+
+// void RunMethod::execLineTracing6() {
+//    mLineTraceMethod->run(0.3, 0.005, 0.03,30,-30,30,-8);
+//    if(g_check1->gray_checker(mCalibration->LIGHT_BLACK,mCalibration->LIGHT_WHITE)==0&&
+//     mea1->point_y>220){
+//      ev3_speaker_play_tone(880,100);
+//      SCENARIO_flag = 2;
+//      mLineTraceMethod->run(0.3, 0.005, 0.03,20,-30,30,0);
+//      mState = SCENARIO_TRACE;
+//   }
+// }//コースR
+
+
+/**
+ * ゴール後の処理
+ */
+ void RunMethod::execScenarioTracing(){
+
+   //ガレージへ推移
+
+  switch(SCENARIO_flag){
+    case 1:
+//ルックアップゲート
+    mLookupMethod->run();
+    SCENARIO_flag = 0;
+    break;
+
+    case 2:
+
+    gar->slowrun_stop();
+
+    break;
+
+    case 3:
+
+    break;
+
+    default:
+    mState = LINE_TRACE;
+    break;
+  }
+
+
+}

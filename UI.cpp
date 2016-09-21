@@ -4,7 +4,7 @@ UI::UI(){
 
  /*LCD*/
     ev3_lcd_fill_rect(0, 0, EV3_LCD_WIDTH, EV3_LCD_HEIGHT, EV3_LCD_WHITE);
-    ev3_lcd_draw_string("EV3way-ET 2015", 0, CALIB_FONT_HEIGHT*1);
+    ev3_lcd_draw_string("EV3way-ET 2016", 0, CALIB_FONT_HEIGHT*1);
 
    string_count = 2;
 
