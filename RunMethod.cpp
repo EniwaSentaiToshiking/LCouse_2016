@@ -137,8 +137,8 @@ void RunMethod::execLineTracing(){
             }
             break;
         case 5:
-            mLineTraceMethod->run(0.86, 0.05, 0.03,100,-100,100,0);
-            if(mea1->point_y>-175&&mea1->point_x<10){
+            mLineTraceMethod->run(0.86, 0.0, 0.04,80,-80,80,0);
+            if(mea1->point_y>-165&&mea1->point_x<10){
                 Line_Trace_flag = 6;
                 ev3_speaker_play_tone (480,100);
             }

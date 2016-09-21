@@ -2,12 +2,12 @@
 
 gray_check::gray_check(ColorSensor* g_ColorSensor) {
     m_ColorSensor = g_ColorSensor;
- //   get_colorfile = fopen("get_colorfile.txt","w");
+    //get_colorfile = fopen("get_colorfile.txt","w");
  //   averagefile = fopen("averagefile.txt","w");
 }
 
 gray_check::~gray_check() {
-  //  fclose(get_colorfile); 
+    //fclose(get_colorfile);
   //  fclose(averagefile); 
 }
 
@@ -40,7 +40,7 @@ int  gray_check::gray_checker(uint8_t black, uint8_t white){
         ev3_speaker_play_tone (480,100);
     }
 
-    if(-((float)color-average)>limit&&color < 14&&count>=50){//取得した輝度値（黒）-平均値（灰色）>閾値,color<灰色,count>灰色をとる時間
+    if(-((float)color-average)>limit&&color < 13&&count>=20){//取得した輝度値（黒）-平均値（灰色）>閾値,color<灰色,count>灰色をとる時間
         return 0;//灰色検知した
     }else{
         return 1;//していない
